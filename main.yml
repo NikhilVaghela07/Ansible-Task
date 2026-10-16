@@ -1,0 +1,37 @@
+- name:  Task
+  hosts: ec2_instance
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: install mysql & pymysql
+      ansible.builtin.apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+
+    - name: start mysql service is not started
+      ansible.builtin.service:
+        name: mysql
+        enabled: true
+        state: started
+
+    - name: create databse 
+      ansible.mysql.mysql_db:
+        name: "{{ database_name }}"
+        state: present
+        login_unix_socket: "{{ mysql_socket }}"
+
+    - name: create table   
+      ansible.mysql.mysql_query:
+        login_user: "{{ database_user }}"
+        login_unix_socket: "{{ mysql_socket }}"
+        login_db: "{{ database_name }}"
+        query: "CREATE TABLE IF NOT EXISTS users ( username VARCHAR(20) NOT NULL, email VARCHAR(100) NOT NULL )"
+
+    - name: add data in database
+      ansible.mysql.mysql_query:
+        login_user: "{{ database_user }}"
+        login_unix_socket: "{{ mysql_socket }}" 
+        login_db: "{{ database_name }}"
+        query: "INSERT INTO users (username, email) VALUES ('nikhil', 'nikhil@gmail.com'), ('shubh', 'shubh@gmail.com');"
