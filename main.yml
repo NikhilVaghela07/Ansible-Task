@@ -35,3 +35,13 @@
         login_unix_socket: "{{ mysql_socket }}" 
         login_db: "{{ database_name }}"
         query: "INSERT INTO users (username, email) VALUES ('nikhil', 'nikhil@gmail.com'), ('shubh', 'shubh@gmail.com');"
+
+    - name: User 1
+      ansible.builtin.user:
+        name: nikhil
+        state: present
+    
+    - name: User 2
+      ansible.builtin.user:
+        name: shubh
+        state: present
