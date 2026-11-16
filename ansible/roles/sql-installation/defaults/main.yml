@@ -1,0 +1,6 @@
+---
+# defaults file for sql-installation
+packages: ['mysql-server', python3-pymysql]
+database_name: "einfochips-intern"
+database_user: root
+mysql_socket: /var/run/mysqld/mysqld.sock

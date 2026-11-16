@@ -1,0 +1,5 @@
+- name: Creating SQL Server On EC2 instance
+  hosts: ec2_instance
+  become: true
+  roles:
+    - sql-installation
